@@ -1,19 +1,37 @@
-import React, { useState, useRef } from "react";
-import ResumeForm from "../components/resumeForm";
-import ResumePreview from "../components/resumePreview";
-import DownloadButton from "../components/downloadButton";
+// src/pages/Editor.tsx
+import React, { useState } from 'react';
+import { useResume } from '../context/resumeContext';
+import { generatePDF } from '../utils/pdfGenerator';
 
 const Editor: React.FC = () => {
-  const [resumeData, setResumeData] = useState({ name: "", email: "", phone: "" });
-  const resumeRef = useRef<HTMLDivElement>(null);
+  const { name, setName, contact, setContact } = useResume();
+  const [localName, setLocalName] = useState(name);
+  const [localContact, setLocalContact] = useState(contact);
+
+  const handleGeneratePDF = () => {
+    generatePDF(localName, localContact);
+  };
 
   return (
-    <div className="flex p-4 gap-4">
-      <ResumeForm onUpdate={setResumeData} />
-      <div ref={resumeRef}>
-        <ResumePreview data={resumeData} />
+    <div className="editor">
+      <h1>Resume Editor</h1>
+      <div>
+        <label>Name:</label>
+        <input
+          type="text"
+          value={localName}
+          onChange={(e) => setLocalName(e.target.value)}
+        />
       </div>
-      <DownloadButton resumeRef={resumeRef} />
+      <div>
+        <label>Contact:</label>
+        <input
+          type="text"
+          value={localContact}
+          onChange={(e) => setLocalContact(e.target.value)}
+        />
+      </div>
+      <button onClick={handleGeneratePDF}>Generate PDF</button>
     </div>
   );
 };
