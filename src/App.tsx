@@ -13,11 +13,11 @@ const App: React.FC = () => {
     <ResumeProvider>
       <Router>
         <div className="min-h-screen flex flex-col">
-          {/* Navbar */}
+          {/* Navbar - Fixed at the top */}
           <NavBar />
 
-          {/* Main Content */}
-          <div className="flex-grow p-6">
+          {/* Main Content - Adds margin to prevent overlap */}
+          <div style={{ marginTop: '70px', flexGrow: 1, padding: '20px' }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutUs />} />
